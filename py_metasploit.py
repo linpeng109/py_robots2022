@@ -12,8 +12,10 @@ class MetasploitClient():
         self.config = config
         self.logger = logger
         # msf连接参数
-        self.server = '192.168.33.241'
-        self.port = 55552
+        self.msfserver = self.config.get('metasploit', 'msfserver')
+        self.msfport = self.config.get('metasploit', 'port')
+        self.msfusername = self.config.get('metasploit', 'username')
+        self.msfpassword = self.config.get('metasploit', 'password')
         self.num = 1
 
     # 加载攻击文本
@@ -32,8 +34,8 @@ class MetasploitClient():
     def attack(self, attack_script: str) -> str:
 
         # 初始化client
-        self.client = MsfRpcClient(user='msf', password='admin',
-                                   server=self.server, port=self.port)
+        self.client = MsfRpcClient(user=self.msfusername, password=self.msfpassword,
+                                   server=self.msfserver, port=self.msfport)
 
         # 初始化console
         cid = self.client.consoles.console().cid
@@ -100,7 +102,7 @@ class MetasploitClient():
 
 
 if __name__ == '__main__':
-    config = ConfigFactory(config_file='py_robot202.ini').get_config()
+    config = ConfigFactory(config_file='py_robot2022.ini').get_config()
     logger = LoggerFactory(config_factory=config).get_logger()
 
     # script_name = 'py_hadoop_unauthorized-yarn'
@@ -110,12 +112,11 @@ if __name__ == '__main__':
     # script_name = 'py_tomcat_cve-2020-1938'
     # script_name = 'py_saltstack_cve-2020-11651'
     script_name = 'py_laravel_cve-2021-3129'
-
     metasploit_client = MetasploitClient(config=config, logger=logger)
     attack_script = metasploit_client.load_script(script_name=script_name)
-    status, result = metasploit_client.attack(attack_script=attack_script)
-    if status == 'success':
-        status, result = metasploit_client.meterpreter()
-    else:
-        logger.debug('failure')
-    print(status, result)
+    # status, result = metasploit_client.attack(attack_script=attack_script)
+    # if status == 'success':
+    #     status, result = metasploit_client.meterpreter()
+    # else:
+    #     logger.debug('failure')
+    # print(status, result)
