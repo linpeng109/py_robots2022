@@ -5,6 +5,8 @@ from pymetasploit3.msfrpc import MsfRpcClient
 from py_config import ConfigFactory
 from py_logging import LoggerFactory
 
+# 自动攻击机器人
+
 
 class MetasploitClient():
     # 初始化
