@@ -4,6 +4,8 @@ from py_logging import LoggerFactory
 from paramiko import Transport
 
 # 自动扫描机器人
+
+
 class Scanner():
     def __init__(self, config, logger) -> None:
         self.config = config
@@ -25,7 +27,8 @@ class Scanner():
     # SSH命令执行器
     def ssh_command_excutor(self, ssh_cmd):
         client = Transport((self.kali_hostname, self.kali_port))
-        client.connect(username=self.kali_username, password=self.kali_password)
+        client.connect(username=self.kali_username,
+                       password=self.kali_password)
         stdout_data = []
         stderr_data = []
         session = client.open_channel(kind='session')
@@ -58,7 +61,8 @@ class Scanner():
 
     # nmap端口扫描:构造nmap指令并处理返回结果
     def nmap(self, taget_ip: str, taget_port: int) -> list:
-        nmap_cmd = self.config.get('commanders', 'nmap_cmd') % (taget_port, taget_ip)
+        nmap_cmd = self.config.get(
+            'commanders', 'nmap_cmd') % (taget_port, taget_ip)
         self.logger.info('nmap_cmd:%s' % nmap_cmd)
         stdout_data, stderr_data = self.ssh_command_excutor(ssh_cmd=nmap_cmd)
         self.logger.debug(stderr_data)
@@ -68,12 +72,13 @@ class Scanner():
         return script_list
 
     # gobuster目录扫描:构造gobuster指令并处理返回结果
-    def gobuster(self, ip: str, port: int):
+    def gobuster(self, taget_ip: str, taget_port: int):
         gobuster_result = []
         gobuster_cmd = self.config.get(
-            'commanders', 'gobuster_cmd') % (ip, port)
+            'commanders', 'gobuster_cmd') % (taget_ip, taget_port)
         self.logger.info('gobuster_cmd: %s' % gobuster_cmd)
-        stdout_data, stderr_data = self.ssh_command_excutor(ssh_cmd=gobuster_cmd)
+        stdout_data, stderr_data = self.ssh_command_excutor(
+            ssh_cmd=gobuster_cmd)
 
         if len(stdout_data) > 0:
             lines = stdout_data[0].decode('utf-8')
@@ -106,15 +111,16 @@ if __name__ == '__main__':
     scanner = Scanner(config=config, logger=logger)
 
     # 使用nmap扫描端口
-    nmap_result = scanner.nmap(taget_ip='172.19.112.99', taget_port=18080)
-    print(nmap_result)
+    # nmap_result = scanner.nmap(taget_ip='172.19.112.99', taget_port=18080)
+    # print(nmap_result)
 
     # 使用gobuster扫描目录
-    # gobuster_result = scanner.gobuster(ip='192.168.33.238', port=18080)
+    # gobuster_result = scanner.gobuster(taget_ip='172.19.112.99', taget_port=18080)
     # print(gobuster_result)
 
     # 使用curl扫描网页
-    # paths = ['/index.html', '/jobs', '/overview', '/assets', '/config', '/libs', '/datasets']
-    # curl_result = scanner.curl(
-    #     curl_cmd=r'curl http://192.168.33.238:18080', url_path_list=paths)
-    # print(curl_result)
+    paths = ['/index.html', '/jobs', '/overview',
+             '/assets', '/config', '/libs', '/datasets']
+    curl_result = scanner.curl(
+        ip="172.19.112.99", port=18080, url_path_list=paths)
+    logger.debug(curl_result)
