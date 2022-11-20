@@ -107,13 +107,13 @@ if __name__ == '__main__':
     config = ConfigFactory(config_file='py_robot2022.ini').get_config()
     logger = LoggerFactory(config_factory=config).get_logger()
 
-    # script_name = 'py_hadoop_unauthorized-yarn'
+    script_name = 'py_hadoop_unauthorized-yarn'
     # script_name = 'py_activemq_cve-2016-3088'
     # script_name = 'py_spring_cve-2022-22963'
     # script_name = 'py_thinkphp_cve-2019-9082'
     # script_name = 'py_tomcat_cve-2020-1938'
     # script_name = 'py_saltstack_cve-2020-11651'
-    script_name = 'py_laravel_cve-2021-3129'
+    # script_name = 'py_laravel_cve-2021-3129'
     metasploit_client = MetasploitClient(config=config, logger=logger)
     attack_script = metasploit_client.load_script(script_name=script_name)
     # status, result = metasploit_client.attack(attack_script=attack_script)

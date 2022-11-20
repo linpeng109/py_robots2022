@@ -111,16 +111,16 @@ if __name__ == '__main__':
     scanner = Scanner(config=config, logger=logger)
 
     # 使用nmap扫描端口
-    # nmap_result = scanner.nmap(taget_ip='172.19.112.99', taget_port=18080)
-    # print(nmap_result)
+    nmap_result = scanner.nmap(taget_ip='172.21.247.10', taget_port=18080)
+    print(nmap_result)
 
     # 使用gobuster扫描目录
     # gobuster_result = scanner.gobuster(taget_ip='172.19.112.99', taget_port=18080)
     # print(gobuster_result)
 
     # 使用curl扫描网页
-    paths = ['/index.html', '/jobs', '/overview',
-             '/assets', '/config', '/libs', '/datasets']
-    curl_result = scanner.curl(
-        ip="172.19.112.99", port=18080, url_path_list=paths)
-    logger.debug(curl_result)
+    # paths = ['/index.html', '/jobs', '/overview',
+    #          '/assets', '/config', '/libs', '/datasets']
+    # curl_result = scanner.curl(
+    #     ip="172.19.112.99", port=18080, url_path_list=paths)
+    # logger.debug(curl_result)
