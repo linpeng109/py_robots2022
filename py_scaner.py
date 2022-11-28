@@ -60,9 +60,9 @@ class Scanner():
         return script_list
 
     # nmap端口扫描:构造nmap指令并处理返回结果
-    def nmap(self, taget_ip: str, taget_port: int) -> list:
+    def nmap(self, target_ip: str, target_port: int) -> list:
         nmap_cmd = self.config.get(
-            'commanders', 'nmap_cmd') % (taget_port, taget_ip)
+            'commanders', 'nmap_cmd') % (target_port, target_ip)
         self.logger.info('nmap_cmd:%s' % nmap_cmd)
         stdout_data, stderr_data = self.ssh_command_excutor(ssh_cmd=nmap_cmd)
         self.logger.debug(stderr_data)
@@ -111,11 +111,11 @@ if __name__ == '__main__':
     scanner = Scanner(config=config, logger=logger)
 
     # 使用nmap扫描端口
-    nmap_result = scanner.nmap(taget_ip='172.21.247.10', taget_port=18080)
+    nmap_result = scanner.nmap(target_ip='172.27.100.110', target_port=18080)
     print(nmap_result)
 
     # 使用gobuster扫描目录
-    # gobuster_result = scanner.gobuster(taget_ip='172.19.112.99', taget_port=18080)
+    # gobuster_result = scanner.gobuster(taget_ip='172.27.100.110', taget_port=18080)
     # print(gobuster_result)
 
     # 使用curl扫描网页
